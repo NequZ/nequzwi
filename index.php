@@ -14,7 +14,7 @@
  * of this license document, but changing it is not allowed.
  *
  * \***************************************************************************/
-
+session_start();
 
 
 
@@ -71,7 +71,13 @@
                     <div id="myNav" class="overlay">
                         <div class="overlay-content">
                             <a href="index.php">HOME</a>
-                            <a href="login.php">LOGIN</a>
+                            <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)  { ?>
+                            <a href="services.php">Services</a> <?php } ?>
+                            <?php if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false)  { ?>
+                            <a href="login.php">LOGIN</a> <?php } ?>
+                            <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)  { ?>
+                            <a href="logout.php">LOGOUT</a> <?php } ?>
+
                         </div>
                     </div>
                 </div>

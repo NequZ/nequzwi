@@ -44,8 +44,15 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $_SESSION['id'] = $user['id'];
         $_SESSION['rank'] = $user['rank'];
 
+        $smt = $db->prepare("UPDATE user SET lastlogin = NOW(), logedin = 1 WHERE username = :username");
+
+        $smt->bindParam(':username', $username);
+        $smt->execute();
+
+
         // redirect to dashboard
-        header("Location: dashboard.php");
+        header("Location: services.php");
+
         exit;
     } else {
         // if username or password is incorrect
@@ -104,13 +111,12 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     </div>
 </div>
 </body>
-<footer>
+<!-- footer section -->
+<footer class="container-fluid footer_section">
     <p>
-        Created with <i class="fa fa-heart"></i> by
-        <a target="_blank" href="https://florin-pop.com">Florin Pop</a>
-        - Read how I created this and how you can join the challenge
-        <a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
+        Copyright 2022 <a href="https://github.com/NequZ" target="_blank">NequZ / Niclas</a> All rights reserved | This Website is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://github.com/NequZ" target="_blank">Niclas</a>
     </p>
 </footer>
+<!-- footer section -->
 
 

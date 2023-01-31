@@ -14,3 +14,94 @@
  * of this license document, but changing it is not allowed.
  *
  * \***************************************************************************/
+
+session_start();
+if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
+
+    header ("Location: login.php");
+
+}
+
+
+?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Hosts</title>
+
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+    <!-- fonts style -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,700|Raleway:400,700&display=swap" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="css/responsive.css" rel="stylesheet" />
+</head>
+
+
+
+<body>
+    <section class="hero_area">
+        <!-- header section strats -->
+        <header class="header_section">
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg custom_nav-container">
+                    <a class="navbar-brand" href="index.php">
+                        <img src="images/logo.png" alt="" />
+                        <span>
+              Hosts
+            </span>
+                    </a>
+
+                    <div class="navbar-collapse" id="">
+                        <div class="custom_menu-btn">
+                            <button onclick="openNav()">
+                                <span class="s-1"> </span>
+                                <span class="s-3"> </span>
+                            </button>
+                        </div>
+                        <div id="myNav" class="overlay">
+                            <div class="overlay-content">
+                                <h2>Welcome <?php echo $_SESSION['username']; ?></h2>
+                                <a href="services.php">SERVICES</a>
+                                <a href="logout.php">LOGOUT</a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+    </section>
+    <script>
+        function openNav() {
+            document.getElementById("myNav").classList.toggle("menu_width");
+            document
+                .querySelector(".custom_menu-btn")
+                .classList.toggle("menu_btn-style");
+        }
+    </script>
+
+<!-- footer section -->
+    <div class="footer_menu">
+<footer class="container-fluid footer_section">
+    <p>
+        Copyright 2022 <a href="https://github.com/NequZ" target="_blank">NequZ / Niclas</a> All rights reserved | This Website is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://github.com/NequZ" target="_blank">Niclas</a>
+    </p>
+</footer>
+</body>
+<!-- footer section -->
+
