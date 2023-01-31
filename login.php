@@ -23,6 +23,35 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
 
 include 'config.php';
 
+// check if form is submitted and if username and password is set
+if (isset($_POST['username']) && isset($_POST['password'])) {
+    // get username and password from form
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // check if username and password is correct
+    $stmt = $db->prepare("SELECT * FROM user WHERE username = :username AND password = :password");
+    $stmt->bindParam(':username', $username);
+    $stmt->bindParam(':password', $password);
+    $stmt->execute();
+    $user = $stmt->fetch();
+
+    // if user is found
+    if ($user) {
+        // set session variables
+        $_SESSION['loggedin'] = true;
+        $_SESSION['username'] = $username;
+        $_SESSION['id'] = $user['id'];
+        $_SESSION['rank'] = $user['rank'];
+
+        // redirect to dashboard
+        header("Location: dashboard.php");
+        exit;
+    } else {
+        // if username or password is incorrect
+        echo "Username or password is incorrect";
+    }
+}
 ?>
 
 <html>
@@ -52,33 +81,17 @@ include 'config.php';
 
 
 <div class="container" id="container">
-    <div class="form-container sign-up-container">
-        <form action="#">
-            <h1>Create Account</h1>
-            <div class="social-container">
-                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-            <span>or use your email for registration</span>
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
-            <button>Sign Up</button>
-        </form>
-    </div>
     <div class="form-container sign-in-container">
-        <form action="#">
+        <form action="login.php" method="post">
             <h1>Login</h1>
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            <input type="text" name="username"  placeholder="Username" />
+            <input type="password" name="password" placeholder="Password" />
             <a href="#">Forgot your password?</a>
-            <button>Sign In</button>
+              <input class="login" type="submit" value=Login>
         </form>
     </div>
     <div class="overlay-container">
         <div class="overlay">
-
             <div class="overlay-panel overlay-right">
                 <h1>Want to create a new Account?</h1>
                 <p>Enter your personal details and start journey with us</p>

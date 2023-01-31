@@ -270,3 +270,15 @@ footer a {
 background-color: transparent;
 color: #5793cf;
 }
+
+.submit {
+    background-color: #5793cf;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 45px;
+    transition: transform 80ms ease-in;
+}
