@@ -19,7 +19,7 @@
  # Information:
  # This is the main daemon for the hostsystems to update the Database with the current CPU and Memory usage. You NEED to install it on the hostsystem you want to monitor. And then add an Entry
  # in the Database Table "hostsystem"
- 
+
 import psutil
 import mysql.connector
 import time
@@ -36,6 +36,14 @@ cursor = conn.cursor()
 while True:
     cpu = psutil.cpu_percent()
     mem = psutil.virtual_memory().percent
+    uptime = time.time() - psutil.boot_time()
+    if uptime > 300: # 300 seconds = 5 minutes
+        cursor.execute("UPDATE hostsystem SET isonline=1 WHERE id=0")
+        conn.commit()
+    else:
+        cursor.execute("UPDATE hostsystem SET isonline=0 WHERE id=0")
+        conn.commit()
+
     cursor.execute("UPDATE hostsystem SET cpu_usage=%s, memory_usage=%s WHERE id=0", (cpu, mem))  # Here you need to change the ID to the ID of the hostsystem you want to update
     conn.commit()
     print ("Hostsysteminfos.. CPU: " + str(cpu) + "%" + " Memory: " + str(mem) + "%")
