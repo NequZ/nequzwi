@@ -83,6 +83,12 @@ apt update && apt upgrade -y
    - [ ] Block Services 
    - [ ] ..
 ## Support
+# Some Common Errors
+ModuleNotFoundError: No module named 'psutil'
+
+```bash
+pip install psutil
+```
 
 For support, feel free to join our Discord Server https://discord.gg/nWGUamCU3t
 
