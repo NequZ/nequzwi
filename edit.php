@@ -138,9 +138,9 @@ $status = $service['isonline'];
 
 $status = $service['isonline'];
 if ($status == 1) {
-    $status = '<span class="badge badge-success">Online</span>';
+    $status = '<span class="badge badge-success"><i class="fa-sharp fa-solid fa-check"></i> Online</span>';
 } else {
-    $status = '<span class="badge badge-danger">Offline</span>';
+    $status = '<span class="badge badge-danger"><i class="fa-sharp fa-solid fa-x"></i> Offline</span>';
 }
 ?>
 
