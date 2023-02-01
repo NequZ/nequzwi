@@ -1,3 +1,25 @@
+######################### Module Header #*******************************
+ # Module Name:  edit.php
+ # Project:      NequZWI
+ # Copyright (c) NequZ
+ #
+ # This file contains the edit script for editing the Service on the Customer side.
+
+ # GNU GENERAL PUBLIC LICENSE
+ # Version 3, 29 June 2007
+
+ # Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ # Everyone is permitted to copy and distribute verbatim copies
+ # of this license document, but changing it is not allowed.
+ #
+ #***************************************************************************/
+
+
+
+ # Information:
+ # This is the main daemon for the hostsystems to update the Database with the current CPU and Memory usage. You NEED to install it on the hostsystem you want to monitor. And then add an Entry
+ # in the Database Table "hostsystem"
+ 
 import psutil
 import mysql.connector
 import time
@@ -11,14 +33,11 @@ conn = mysql.connector.connect(
 )
 cursor = conn.cursor()
 
-# Function to insert the data into the database
-def insert_data(cpu_usage):
-    sql = "INSERT INTO cpu_usage (usage) VALUES (%s)"
-    cursor.execute(sql, (cpu_usage,))
-    conn.commit()
-
-# Continuously check the CPU usage and insert the data into the database
 while True:
-    cpu_usage = psutil.cpu_percent()
-    insert_data(cpu_usage)
-    time.sleep(180) # wait for 60 seconds before checking again
+    cpu = psutil.cpu_percent()
+    mem = psutil.virtual_memory().percent
+    cursor.execute("UPDATE hostsystem SET cpu_usage=%s, memory_usage=%s WHERE id=0", (cpu, mem))  # Here you need to change the ID to the ID of the hostsystem you want to update
+    conn.commit()
+    print ("Hostsysteminfos.. CPU: " + str(cpu) + "%" + " Memory: " + str(mem) + "%")
+    time.sleep(180) # 3 minutes delay between each update
+
