@@ -23,6 +23,16 @@ if [ ! -d "/opt/nequz-wi-daemon" ]; then
     echo "Created directory /opt/nequz-wi-daemon"
 fi
 cd /opt/nequz-wi-daemon
+echo "---------------------------------"
+# create file id.txt
+echo "Creating file id.txt"
+if [ ! -f "id.txt" ]; then
+    id=$(($RANDOM % 100000 + 1))
+
+    echo $id > id.txt
+
+fi
+echo "---------------------------------"
 
 echo "Select the Duration of the Check on the Hostsysem (in seconds):"
 read duration
@@ -32,7 +42,10 @@ echo "# -*- coding: utf-8 -*-" >> nequz-wi-daemon.py
 echo "import psutil" >> nequz-wi-daemon.py
 echo "import mysql.connector" >> nequz-wi-daemon.py
 echo "import time" >> nequz-wi-daemon.py
+echo "import datetime" >> nequz-wi-daemon.py
 echo "import random" >> nequz-wi-daemon.py
+echo "import subprocess " >> nequz-wi-daemon.py
+echo "import os" >> nequz-wi-daemon.py
 echo "" >> nequz-wi-daemon.py
 echo "# Connect to the database" >> nequz-wi-daemon.py
 echo "conn = mysql.connector.connect(" >> nequz-wi-daemon.py
@@ -43,14 +56,26 @@ echo "    database='nequzwi'" >> nequz-wi-daemon.py
 echo ")" >> nequz-wi-daemon.py
 echo "cursor = conn.cursor()" >> nequz-wi-daemon.py
 echo "" >> nequz-wi-daemon.py
-echo "id = random.randint(1, 100000)" >> nequz-wi-daemon.py
-echo "cursor.execute(\"INSERT INTO hostsystem (id, cpu_usage, memory_usage, isonline) VALUES (%s, 0, 0, 0)\", (id,))" >> nequz-wi-daemon.py
-echo "conn.commit()" >> nequz-wi-daemon.py
-echo "" >> nequz-wi-daemon.py
+echo "# Create a new Hostsystem" >> nequz-wi-daemon.py
+echo "id=$(cat id.txt)" >> nequz-wi-daemon.py
+# if id already exists, dont create a new one
+echo "cursor.execute(\"SELECT * FROM hostsystem WHERE id=%s\", (id,))" >> nequz-wi-daemon.py
+echo "if cursor.fetchone() is not None:" >> nequz-wi-daemon.py
+echo "    print (\"Hostsystem already exists.\")" >> nequz-wi-daemon.py
+echo "else:" >> nequz-wi-daemon.py
+echo "    cursor.execute(\"INSERT INTO hostsystem (id, cpu_usage, memory_usage, isonline) VALUES (%s, 0, 0, 0)\", (id,))" >> nequz-wi-daemon.py
+echo "    conn.commit()" >> nequz-wi-daemon.py
+
 echo "while True:" >> nequz-wi-daemon.py
 echo "    cpu = psutil.cpu_percent()" >> nequz-wi-daemon.py
 echo "    mem = psutil.virtual_memory().percent" >> nequz-wi-daemon.py
 echo "    uptime = time.time() - psutil.boot_time()" >> nequz-wi-daemon.py
+echo "    laststatus = datetime.datetime.now().time()" >> nequz-wi-daemon.py
+echo "    ip = subprocess.run(['ipconfig'], stdout=subprocess.PIPE).stdout.decode('utf-8')" >> nequz-wi-daemon.py
+echo "    Enter a Servername for this Hostsystem:"
+read servername
+echo "    Thank you! The Installer will now continue."
+
 echo "    if uptime > 300:" >> nequz-wi-daemon.py
 echo "        cursor.execute(\"UPDATE hostsystem SET isonline=1 WHERE id=%s\", (id,))" >> nequz-wi-daemon.py
 echo "        conn.commit()" >> nequz-wi-daemon.py
@@ -58,13 +83,17 @@ echo "    else:" >> nequz-wi-daemon.py
 echo "        cursor.execute(\"UPDATE hostsystem SET isonline=0 WHERE id=%s\", (id,))" >> nequz-wi-daemon.py
 echo "        conn.commit()" >> nequz-wi-daemon.py
 echo "" >> nequz-wi-daemon.py
-echo "    cursor.execute(\"UPDATE hostsystem SET cpu_usage=%s, memory_usage=%s WHERE id=%s\", (cpu, mem, id))" >> nequz-wi-daemon.py
+
+echo "    cursor.execute(\"UPDATE hostsystem SET cpu_usage=%s, memory_usage=%s, laststatus=%s, servername=%s, ip=%s WHERE id=%s\", (cpu, mem, laststatus, '$servername', ip, id))" >> nequz-wi-daemon.py
 echo "    conn.commit()" >> nequz-wi-daemon.py
 echo "    print (\"CPU: \" + str(cpu) + \"%\")" >> nequz-wi-daemon.py
 echo "    print (\"Memory: \" + str(mem) + \"%\")" >> nequz-wi-daemon.py
 echo "    print (\"Uptime: \" + str(uptime) + \" seconds\")" >> nequz-wi-daemon.py
+echo "    print (\"Last Status: \" + str(laststatus))" >> nequz-wi-daemon.py
+echo "    print (\"ID of this Hostsystem: \" + str(id))" >> nequz-wi-daemon.py
 echo "    print (\"---------------------------------\")" >> nequz-wi-daemon.py
 echo "    time.sleep($duration)" >> nequz-wi-daemon.py
+
 
 # Create the service
 echo "[Unit]" >> nequz-wi-daemon.service
