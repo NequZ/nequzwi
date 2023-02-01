@@ -133,7 +133,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
 <br>
 
 <?php
-$smt = $db->prepare("SELECT * FROM user WHERE username = :username");
+$smt = $db->prepare("SELECT * FROM `user` RIGHT JOIN `user_informations` USING (`username`) WHERE `username` = :username");
 $smt->bindParam(':username', $_SESSION['username']);
 $smt->execute();
 $users = $smt->fetchAll();
@@ -142,9 +142,61 @@ $users = $smt->fetchAll();
 ?>
 <!-- Create Table -->
 <div class="container">
+    <div class="row justify-content-center">
+        <div class="row">
+            <div class="col-md-50">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-dark">
+                        <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Username</th>
+                            <th>Login E-Mail</th>
+                            <th>Password</th>
+                            <th>Status</th>
+                            <th>Rank</th>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Delivery E-Mail</th>
+                            <th>ZIP-Code</th>
+                            <th>City</th>
+                            <th>Country</th>
+                            <th>Address</th>
+                            <th>Edit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($users as $user) : ?>
+                            <tr>
+                                <td><?php echo $user['id']; ?></td>
+                                <td><?php echo $user['username']; ?></td>
+                                <td><?php echo $user['email']; ?></td>
+                                <td><?php echo $user['password']; ?></td>
+                                <td>
+                                    <?php if ($user['logedin']) : ?>
+                                        <span class="badge badge-danger"><?php echo $user['lastlogin']; ?></span>
+                                    <?php else : ?>
+                                        <span class="badge badge-success"><?php echo $user['lastlogin']; ?></span>
+                                    <?php endif; ?>
+                                </td>
+                                <td><?php echo $user['rank']; ?></td>
+                                <td><?php echo $user['firstname']; ?></td>
+                                <td><?php echo $user['lastname']; ?></td>
+                                <td><?php echo $user['email']; ?></td>
+                                <td><?php echo $user['zip_code']; ?></td>
+                                <td><?php echo $user['city']; ?></td>
+                                <td><?php echo $user['county']; ?></td>
+                                <td><?php echo $user['adress']; ?></td>
 
-    <td><a href="admin_userlist.php" class="btn btn-primary btn-sm">Userlist</a></td><br>
-    <td><a href="#" class="btn btn-primary btn-sm">Servicelist</a></td><br>
+                                <td><a href="#" class="btn btn-primary btn-sm">Manage</a></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- footer section -->
