@@ -43,6 +43,9 @@ if (!$service) {
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="/css/fontawesome.css" rel="stylesheet">
+    <link href="/css/brands.css" rel="stylesheet">
+    <link href="/css/solid.css" rel="stylesheet">
     <!-- Basic -->
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -131,51 +134,112 @@ $service = $stmt->fetch();
 
 // get the service from the database
 $ip = $service['ip'];
+$status = $service['isonline'];
+
+$status = $service['isonline'];
+if ($status == 1) {
+    $status = '<span class="badge badge-success">Online</span>';
+} else {
+    $status = '<span class="badge badge-danger">Offline</span>';
+}
 ?>
 
-
-<div class="server-overview">
-    <h2>Server Overview</h2>
-    <div class="left-nav">
-        <ul>
-            <li><a href="#server-info">Server Information</a></li>
-            <li><a href="#server-settings">Server Settings</a></li>
-            <li><a href="#server-status">Server Status</a></li>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="servicedashboard.php">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Manage</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="support.php">Support</a>
+            </li>
         </ul>
     </div>
-    <div class="right-content">
-        <div id="server-info">
-            <h3>Server Information</h3>
-            <ul>
-                <li>
-                    <span class="label">Server Name:</span>
-                    <span class="value"><?php echo $_SERVER['SERVER_NAME']; ?></span>
-                </li>
-                <li>
-                    <span class="label">Server Address:</span>
-                    <span class="value"><?php echo $_SERVER['SERVER_ADDR']; ?></span>
-                </li>
-                <li>
-                    <span class="label">Server Software:</span>
-                    <span class="value"><?php echo $_SERVER['SERVER_SOFTWARE']; ?></span>
-                </li>
-                <li>
-                    <span class="label">PHP Version:</span>
-                    <span class="value"><?php echo phpversion(); ?></span>
-                </li>
-                <li>
-                    <span class="label">Document Root:</span>
-                    <span class="value"><?php echo $_SERVER['DOCUMENT_ROOT']; ?></span>
-                </li>
-            </ul>
+</nav>
+<!-- End of Navbar -->
+
+<!-- Table -->
+<div class="container mt-3">
+    <h1>Service Details ID #<?php echo $service['id']; ?></h1>
+    <table class="table table-info">
+        <thead>
+        <tr>
+            <th>IP Adress</th>
+            <th>Booked CPU</th>
+            <th>Booked Memory</th>
+            <th>Operatingsystem</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><?php echo $service['ip']; ?></td>
+            <td><?php echo $service['cpu_cores']; ?> Core/s</td>
+            <td><?php echo $service['memory']; ?> GB</td>
+            <td><?php echo $service['software']; ?></td>
+            <td><?php echo $status;?></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="row mt-6">
+        <div class="col-md-6 text-center">
+            <canvas id="cpuUsageCircle" class="mx-auto"></canvas>
+            <p class="text-center"><i class="fa-sharp fa-solid fa-microchip"></i> CPU Usage</p>
         </div>
-        <div id="server-settings">
-            <h3>Server Settings</h3>
-            <!-- Add server settings information here -->
-        </div>
-        <div id="server-status">
-            <h3>Server Status</h3>
-            <!-- Add server status information here -->
+        <div class="col-md-6 text-center">
+            <canvas id="memoryUsageCircle" class="mx-auto"></canvas>
+            <p class="text-center"><i class="fa-sharp fa-solid fa-memory"></i> Memory Usage: </p>
         </div>
     </div>
 </div>
+
+<script>
+    // Get the canvas elements
+    const cpuUsageCircle = document.getElementById("cpuUsageCircle");
+    const memoryUsageCircle = document.getElementById("memoryUsageCircle");
+
+    // Set the canvas size
+    cpuUsageCircle.width = 200;
+    cpuUsageCircle.height = 200;
+    memoryUsageCircle.width = 200;
+    memoryUsageCircle.height = 200;
+
+    // Get the context
+    const cpuContext = cpuUsageCircle.getContext("2d");
+    const memoryContext = memoryUsageCircle.getContext("2d");
+
+    // Draw the CPU usage circle
+    cpuContext.beginPath();
+    cpuContext.arc(100, 100, 80, 0, 2 * Math.PI * <?php echo $service['currentusage_cpu'] / 100; ?>);
+    cpuContext.strokeStyle = "#28a745";
+    cpuContext.lineWidth = 20;
+    cpuContext.stroke();
+    cpuContext.fillStyle = "#28a745";
+    cpuContext.font = "20px Arial";
+    cpuContext.textAlign = "center";
+    cpuContext.textBaseline = "middle";
+    cpuContext.fillText("<?php echo $service['currentusage_cpu']; ?>%", 100, 100);
+
+
+    // Draw the memory usage circle
+    memoryContext.beginPath();
+    memoryContext.arc(100, 100, 80, 0, 2 * Math.PI * <?php echo $service['currentusage_memory'] / 100; ?>);
+    memoryContext.strokeStyle = "#007bff";
+    memoryContext.lineWidth = 20;
+    memoryContext.stroke();
+    memoryContext.fillStyle = "#007bff";
+    memoryContext.font = "20px Arial";
+    memoryContext.textAlign = "center";
+    memoryContext.textBaseline = "middle";
+    memoryContext.fillText("<?php echo $service['currentusage_memory']; ?>%", 100, 100);
+</script>
+</div>
+

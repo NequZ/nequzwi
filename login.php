@@ -82,6 +82,9 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     <link href="css/login.css" rel="stylesheet" />
     <!-- responsive style -->
     <link href="css/responsive.css" rel="stylesheet" />
+    <link href="/css/fontawesome.css" rel="stylesheet">
+    <link href="/css/brands.css" rel="stylesheet">
+    <link href="/css/solid.css" rel="stylesheet">
 
 </head>
 <body>

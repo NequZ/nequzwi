@@ -1073,3 +1073,8 @@ margin: 0 auto;
   margin-left: 200px;
   padding: 20px;
 }
+
+.container {
+  text-align: center;
+  margin-top: 50px;
+}
