@@ -133,12 +133,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
 <br>
 
 <?php
-$smt = $db->prepare("SELECT * FROM `user` RIGHT JOIN `user_informations` USING (`username`) WHERE `username` = :username");
-$smt->bindParam(':username', $_SESSION['username']);
-$smt->execute();
-$users = $smt->fetchAll();
-
-
+    $smt = $db->prepare("SELECT * FROM `user` RIGHT JOIN `user_informations` USING (`username`)");
+    $smt->execute();
+    $users = $smt->fetchAll();
 ?>
 <!-- Create Table -->
 <div class="container">
