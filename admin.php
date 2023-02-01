@@ -23,6 +23,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
 }
 
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -73,14 +75,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
                     <span class="sr-only">(current)</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="servicedashboard.php">
-                    <i class="fa fa-envelope-o">
 
-                    </i>
-                    Services
-                </a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link" href="account.php">
                     <i class="fa fa-envelope-o">
@@ -97,22 +92,21 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
                 </a>
             </li>
             <?php
-                $smt = $db->prepare("SELECT `rank` FROM `user` WHERE username = :username");
-                $smt->bindParam(':username', $_SESSION['username']);
-                $smt->execute();
-                $adminRank = $smt->fetchColumn();
+            $smt = $db->prepare("SELECT `rank` FROM `user` WHERE username = :username");
+            $smt->bindParam(':username', $_SESSION['username']);
+            $smt->execute();
+            $adminRank = $smt->fetchColumn();
 
-                if(intval($adminRank) > 0): ?>
-            <li class="nav-item">
-                <a class="nav-link" href="admin.php">
-                    <i class="fa fa-envelope-o">
+            if(intval($adminRank) > 0): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="admin.php">
+                        <i class="fa fa-envelope-o">
 
-                    </i>
-                    Administration
-                </a>
-            </li>
+                        </i>
+                        Administration
+                    </a>
+                </li>
             <?php endif; ?>
-
         </ul>
         <div class="navbar-text mx-auto">
             Welcome Back <?php echo $_SESSION['username']; ?>
@@ -136,15 +130,19 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
         </ul>
     </div>
 </nav>
+<br>
+<!-- Create Table -->
+<div class="container">
+
+    <td><a href="admin_userlist.php" class="btn btn-primary btn-sm">Userlist</a></td><br>
+    <td><a href="admin_servicelist.php" class="btn btn-primary btn-sm">Servicelist</a></td><br>
 
 
-
-<!-- footer section -->
-<div class="footer_menu">
-    <footer class="container-fluid footer_section">
-        <p>
-            Copyright 2022 <a href="https://github.com/NequZ" target="_blank">NequZ / Niclas</a> All rights reserved | This Website is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://github.com/NequZ" target="_blank">Niclas</a>
-        </p>
-    </footer>
-</div>
-<!-- footer section -->
+    <!-- footer section -->
+    <div class="footer_menu">
+        <footer class="container-fluid footer_section">
+            <p class="text-center">
+                Copyright 2022 <a href="https://github.com/NequZ" target="_blank">NequZ / Niclas</a> All rights reserved | This Website is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://github.com/NequZ" target="_blank">Niclas</a>
+            </p>
+        </footer>
+    </div>
