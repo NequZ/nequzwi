@@ -188,5 +188,5 @@ if ($status == 1) {
     memoryContext.textBaseline = "middle";
     memoryContext.fillText("<?php echo $service['currentusage_memory']; ?>%", 100, 100);
 </script>
-</div>
+</body>
 

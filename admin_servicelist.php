@@ -141,11 +141,4 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
     </div>
 
 
-    <!-- footer section -->
-    <div class="footer_menu">
-        <footer class="container-fluid footer_section">
-            <p class="text-center">
-                Copyright 2022 <a href="https://github.com/NequZ" target="_blank">NequZ / Niclas</a> All rights reserved | This Website is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://github.com/NequZ" target="_blank">Niclas</a>
-            </p>
-        </footer>
-    </div>
+    <?php include 'footer.php'; ?>

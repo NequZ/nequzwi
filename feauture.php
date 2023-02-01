@@ -284,13 +284,7 @@
 
 <!-- end info section -->
 
-<!-- footer section -->
-<footer class="container-fluid footer_section">
-    <p>
-        Copyright 2022 <a href="https://github.com/NequZ" target="_blank">NequZ / Niclas</a> All rights reserved | This Website is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://github.com/NequZ" target="_blank">Niclas</a>
-    </p>
-</footer>
-<!-- footer section -->
+<?php include 'footer.php'; ?>
 
 <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
