@@ -23,6 +23,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
 }
 
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -73,14 +75,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
                     <span class="sr-only">(current)</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="servicedashboard.php">
-                    <i class="fa fa-envelope-o">
 
-                    </i>
-                    Services
-                </a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link" href="account.php">
                     <i class="fa fa-envelope-o">
@@ -96,23 +91,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
                     WIP
                 </a>
             </li>
-            <?php
-                $smt = $db->prepare("SELECT `rank` FROM `user` WHERE username = :username");
-                $smt->bindParam(':username', $_SESSION['username']);
-                $smt->execute();
-                $adminRank = $smt->fetchColumn();
-
-                if(intval($adminRank) > 0): ?>
-            <li class="nav-item">
-                <a class="nav-link" href="admin.php">
-                    <i class="fa fa-envelope-o">
-
-                    </i>
-                    Administration
-                </a>
-            </li>
-            <?php endif; ?>
-
         </ul>
         <div class="navbar-text mx-auto">
             Welcome Back <?php echo $_SESSION['username']; ?>
@@ -136,15 +114,78 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
         </ul>
     </div>
 </nav>
+<br>
+
+<?php
+$smt = $db->prepare("SELECT * FROM user_service WHERE username = :username");
+$smt->bindParam(':username', $_SESSION['username']);
+$smt->execute();
+$services = $smt->fetchAll();
+
+// get service name from service_id from the table called service
+foreach ($services as $key => $service) {
+    $smt = $db->prepare("SELECT * FROM service WHERE service_id = :id");
+    $smt->bindParam(':id', $service['service_id']);
+    $smt->execute();
+    $service = $smt->fetch();
+    $services[$key]['service_id'] = $service['service_name'];
+}
 
 
+?>
+<!-- Create Table -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="row">
+            <div class="col-md-50">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-dark">
+                        <thead>
+                        <tr>
+                            <th>Service ID</th>
+                            <th>Service</th>
+                            <th>Register Date</th>
+                            <th>Expire Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($services as $service) : ?>
+                            <tr>
+                                <td><?php echo $service['id']; ?></td>
+                                <td><?php echo $service['service_id']; ?></td>
+                                <td><?php echo $service['registerdate']; ?></td>
+                                <td><?php echo $service['validuntil']; ?></td>
+                                <td>
+                                    <?php if ($service['validuntil'] < date('Y-m-d')) : ?>
+                                        <span class="badge badge-danger">Expired</span>
+                                    <?php else : ?>
+                                        <span class="badge badge-success">Active</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if ($service['blocked'] == '1') : ?>
+                                        <span class="badge badge-danger">Blocked</span>
+                                    <?php else : ?>
+                                        <a href="edit.php?id=<?php echo $service['id']; ?>" class="btn btn-primary btn-sm">Manage</a>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<!-- footer section -->
-<div class="footer_menu">
-    <footer class="container-fluid footer_section">
-        <p>
-            Copyright 2022 <a href="https://github.com/NequZ" target="_blank">NequZ / Niclas</a> All rights reserved | This Website is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://github.com/NequZ" target="_blank">Niclas</a>
-        </p>
-    </footer>
-</div>
-<!-- footer section -->
+
+    <!-- footer section -->
+    <div class="footer_menu">
+        <footer class="container-fluid footer_section">
+            <p class="text-center">
+                Copyright 2022 <a href="https://github.com/NequZ" target="_blank">NequZ / Niclas</a> All rights reserved | This Website is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://github.com/NequZ" target="_blank">Niclas</a>
+            </p>
+        </footer>
+    </div>
