@@ -42,8 +42,8 @@ apt update && apt upgrade -y
    - [x] Constant polling of session variables so that no user gets rights he does not have
    - [ ] Add Possibility to enable / disable 2FA Authentication
    - [ ] More options in the config.php for administrating / editing the Interface, like show specific strings with infos et
-   
- 2. Customer Interface
+
+2. Customer Interface
    - [x] Edit and View the own Account Informations
    - [ ] See Transaction History
    - [ ] Invoice Section
@@ -59,6 +59,7 @@ apt update && apt upgrade -y
    - [ ] Live Overview about Service Usage
    - [ ] ..
 
+
 4. Administration
    - [ ] Own Admininterface
    - [ ] Manage Customers
@@ -71,6 +72,7 @@ apt update && apt upgrade -y
    - [ ] Reinstall Service
    - [ ] Different Administration Roles
    - [ ] ..
+
 
 5. NequZ-WI Daemon
    - [ ] Get Status about Hostsystem for Administration
