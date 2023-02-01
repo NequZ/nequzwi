@@ -131,11 +131,83 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
     </div>
 </nav>
 <br>
+
+<?php
+    $smt = $db->prepare("SELECT * FROM `user_service`");
+    $smt->execute();
+    $services = $smt->fetchAll();
+
+
+?>
 <!-- Create Table -->
 <div class="container">
+    <div class="row justify-content-center">
+        <div class="row">
+            <div class="col-md-50">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-dark">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Service ID</th>
+                            <th>Service Category</th>
+                            <th>Username</th>
+                            <th>Status</th>
+                            <th>Register-Date</th>
+                            <th>End-Date</th>
+                            <th>Blocked</th>
+                            <th>IP</th>
+                            <th>CPU-Cores</th>
+                            <th>Memory</th>
+                            <th>Gameserver</th>
+                            <th>Software</th>
+                            <th>Online</th>
+                            <th>CPU-Usage</th>
+                            <th>RAM-Usage</th>
+                            <th>Edit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($services as $service) : ?>
+                            <tr>
+                                <td><?php echo $service['id']; ?></td>
+                                <td><?php echo $service['service_id']; ?></td>
+                                <td><?php echo $service['service_category']; ?></td>
+                                <td><?php echo $service['username']; ?></td>
+                                <td>
+                                    <?php if ($service['active']) : ?>
+                                        <span class="badge badge-success">true</span>
+                                    <?php else : ?>
+                                        <span class="badge badge-danger">false</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td><?php echo $service['registerdate']; ?></td>
+                                <td><?php echo $service['validuntil']; ?></td>
+                                <td><?php echo $service['blocked']; ?></td>
+                                <td><?php echo $service['ip']; ?></td>
+                                <td><?php echo $service['cpu_cores']; ?></td>
+                                <td><?php echo $service['memory']; ?></td>
+                                <td><?php echo $service['isgameserver']; ?></td>
+                                <td><?php echo $service['software']; ?></td>
+                                <td>
+                                    <?php if ($service['isonline']) : ?>
+                                        <span class="badge badge-success">true</span>
+                                    <?php else : ?>
+                                        <span class="badge badge-danger">false</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td><?php echo $service['currentusage_cpu']; ?></td>
+                                <td><?php echo $service['currentusage_memory']; ?></td>
 
-    <td><a href="admin_userlist.php" class="btn btn-primary btn-sm">Userlist</a></td><br>
-    <td><a href="admin_servicelist.php" class="btn btn-primary btn-sm">Servicelist</a></td><br>
+                                <td><a href="#" class="btn btn-primary btn-sm">Manage</a></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- footer section -->
