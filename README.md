@@ -35,6 +35,15 @@ apt update && apt upgrade -y
 
 How to install the Daemon for a Hostsystem
 
+#REQUIREMENTS
+
+- Debian, Ubuntu or any other Linux System
+- screen
+- php
+- python
+
+
+
 ## Roadmap
 
 1. General Usage
