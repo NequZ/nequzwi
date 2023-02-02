@@ -37,6 +37,7 @@ apt-get -y install screen
 apt install python3-pip
 pip3 install Flask
 pip3 install docker
+pip3 install flask-cors
 
 ```
     
