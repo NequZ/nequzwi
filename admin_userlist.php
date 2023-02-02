@@ -1,10 +1,10 @@
 <?php
 /******************************* Module Header ******************************\
- * Module Name:  services.php
+ * Module Name:  admin_userlist.php
  * Project:      NequZWI
  * Copyright (c) NequZ
  *
- * This file contains the services page.
+ * This file contains the admin userlist page.
  *
  * GNU GENERAL PUBLIC LICENSE
  * Version 3, 29 June 2007
@@ -81,7 +81,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
                             <th>Username</th>
                             <th>Login E-Mail</th>
                             <th>Password</th>
-                            <th>Status</th>
+                            <th>Last Login</th>
                             <th>Rank</th>
                             <th>Firstname</th>
                             <th>Lastname</th>
@@ -116,7 +116,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
                                 <td><?php echo $user['county']; ?></td>
                                 <td><?php echo $user['adress']; ?></td>
 
-                                <td><a href="#" class="btn btn-primary btn-sm">Manage</a></td>
+                                <td><a href="admin_edit_user.php?id=<?php echo $user['id']; ?>" class="btn btn-primary btn-sm">Manage</a></td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>
