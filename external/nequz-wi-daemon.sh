@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Install required packages
-pip install mysql-connector-python
-pip install psutil
+pip3 install mysql-connector-python
+pip3 install psutil
 
 
 echo "Welcome to the Nequz-WI Daemon installer! This script will install the daemon on your system."

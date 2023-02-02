@@ -67,6 +67,29 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
 
     <td><a href="admin_userlist.php" class="btn btn-primary btn-sm">Userlist</a></td><br>
     <td><a href="admin_servicelist.php" class="btn btn-primary btn-sm">Servicelist</a></td><br>
+    <td><a href="admin_addservice.php" class="btn btn-primary btn-sm">Add Service</a></td><br>
+    <button onclick="createServer()">Create Service</button>
 
+    <script>
+        async function createServer() {
+            let data = {
+                "server_name": "MyMinecraftServer"
+            };
+
+            const response = await fetch('http://45.146.252.134:5000/create_server', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                console.log("Server creation request was successful.");
+            } else {
+                console.log("Server creation request failed.");
+            }
+        }
+    </script>
 
     <?php include 'footer.php'; ?>
