@@ -31,6 +31,10 @@ How to install NequZ-WI
 apt update && apt upgrade -y
 ```
     
+## NequZ-WI-Dameon Installation
+
+How to install the Daemon for a Hostsystem
+
 ## Roadmap
 
 1. General Usage
