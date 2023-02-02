@@ -120,7 +120,16 @@ echo "
 
 
     if result:
-        print(\"Found inactive entry in user_service\")
+        inactive_ids = [row[0] for row in result]
+        print(\"Found inactive entries with IDs:\", inactive_ids)
+        cursor.execute(\"SELECT * FROM user_service WHERE hostid = %s AND active = 0\", (id,))
+        result = cursor.fetchall()
+        if result:
+            print(\"Found inactive entries with the same hostid as the current host\")
+        else:
+            print(\"No inactive entries with the same hostid as the current host found\")
+            conn.commit()
+
     else:
         print(\"No inactive entries found\")
     time.sleep($duration)" >> nequz-wi-daemon.py
