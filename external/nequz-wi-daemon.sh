@@ -7,6 +7,13 @@ pip install psutil
 
 echo "Welcome to the Nequz-WI Daemon installer! This script will install the daemon on your system."
 echo "The daemon will collect data about your system and send it to the Database."
+echo "---------------------------------"
+echo "Please enter the IP of the MySQL Server:"
+echo "If your using the same server, type localhost and press enter."
+read ip
+echo "Please Enter the Port of the MySQL Server:"
+echo "If your using the default port, type 3306 and press enter."
+read port
 echo "Please enter the password for the MySQL root user:"
 read -s password
 echo "Thank you! The Installer will now start."
@@ -58,10 +65,11 @@ echo "import os" >> nequz-wi-daemon.py
 echo "" >> nequz-wi-daemon.py
 echo "# Connect to the database" >> nequz-wi-daemon.py
 echo "conn = mysql.connector.connect(" >> nequz-wi-daemon.py
-echo "    host='localhost'," >> nequz-wi-daemon.py
+echo "    host='$ip'," >> nequz-wi-daemon.py
 echo "    user='root'," >> nequz-wi-daemon.py
 echo "    passwd='$password'," >> nequz-wi-daemon.py
-echo "    database='nequzwi'" >> nequz-wi-daemon.py
+echo "    database='nequzwi'," >> nequz-wi-daemon.py
+echo "    port='$port'" >> nequz-wi-daemon.py
 echo ")" >> nequz-wi-daemon.py
 echo "cursor = conn.cursor()" >> nequz-wi-daemon.py
 echo "" >> nequz-wi-daemon.py
@@ -103,7 +111,19 @@ echo "    print (\"Last Status: \" + str(laststatus))" >> nequz-wi-daemon.py
 echo "    print (\"ID of this Hostsystem: \" + str(id))" >> nequz-wi-daemon.py
 echo "    print (\"Server Allocation: \" + str(allocation))" >> nequz-wi-daemon.py
 echo "    print (\"---------------------------------\")" >> nequz-wi-daemon.py
-echo "    time.sleep($duration)" >> nequz-wi-daemon.py
+
+echo "
+
+    cursor = conn.cursor()
+    cursor.execute(\"SELECT * FROM user_service WHERE active = 0\")
+    result = cursor.fetchall()
+
+
+    if result:
+        print(\"Found inactive entry in user_service\")
+    else:
+        print(\"No inactive entries found\")
+    time.sleep($duration)" >> nequz-wi-daemon.py
 
 
 # Create the service
