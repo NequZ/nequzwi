@@ -14,6 +14,10 @@ echo "---------------------------------"
 echo "Installing the daemon..."
 echo "---------------------------------"
 echo "Creating directory /opt/nequz-wi-daemon"
+echo "---------------------------------"
+echo "Enter a Server Allocation for this Hostsystem:"
+read allocation
+echo "---------------------------------"
 
 
 
@@ -28,9 +32,14 @@ echo "---------------------------------"
 echo "Creating file id.txt"
 if [ ! -f "id.txt" ]; then
     id=$(($RANDOM % 100000 + 1))
-
     echo $id > id.txt
+    echo "Created file id.txt"
 
+fi
+
+if [ ! -f "allocation.txt" ]; then
+    echo "$allocation" > allocation.txt
+    echo "Created file allocation.txt"
 fi
 echo "---------------------------------"
 
@@ -58,12 +67,13 @@ echo "cursor = conn.cursor()" >> nequz-wi-daemon.py
 echo "" >> nequz-wi-daemon.py
 echo "# Create a new Hostsystem" >> nequz-wi-daemon.py
 echo "id=$(cat id.txt)" >> nequz-wi-daemon.py
+echo "allocation='$(cat allocation.txt)'" >> nequz-wi-daemon.py
 # if id already exists, dont create a new one
-echo "cursor.execute(\"SELECT * FROM hostsystem WHERE id=%s\", (id,))" >> nequz-wi-daemon.py
+echo "cursor.execute(\"SELECT * FROM hostsystem WHERE id=%s AND allocation=%s\", (id, allocation))" >> nequz-wi-daemon.py
 echo "if cursor.fetchone() is not None:" >> nequz-wi-daemon.py
 echo "    print (\"Hostsystem already exists.\")" >> nequz-wi-daemon.py
 echo "else:" >> nequz-wi-daemon.py
-echo "    cursor.execute(\"INSERT INTO hostsystem (id, cpu_usage, memory_usage, isonline) VALUES (%s, 0, 0, 0)\", (id,))" >> nequz-wi-daemon.py
+echo "    cursor.execute(\"INSERT INTO hostsystem (id, cpu_usage, memory_usage, isonline, laststatus, allocation) VALUES (%s, 0, 0, 0, '00:00:00', %s)\", (id, allocation))" >> nequz-wi-daemon.py
 echo "    conn.commit()" >> nequz-wi-daemon.py
 
 echo "while True:" >> nequz-wi-daemon.py
@@ -91,6 +101,7 @@ echo "    print (\"Memory: \" + str(mem) + \"%\")" >> nequz-wi-daemon.py
 echo "    print (\"Uptime: \" + str(uptime) + \" seconds\")" >> nequz-wi-daemon.py
 echo "    print (\"Last Status: \" + str(laststatus))" >> nequz-wi-daemon.py
 echo "    print (\"ID of this Hostsystem: \" + str(id))" >> nequz-wi-daemon.py
+echo "    print (\"Server Allocation: \" + str(allocation))" >> nequz-wi-daemon.py
 echo "    print (\"---------------------------------\")" >> nequz-wi-daemon.py
 echo "    time.sleep($duration)" >> nequz-wi-daemon.py
 
