@@ -35,8 +35,8 @@ apt install php
 apt install curl
 apt-get -y install screen
 apt install python3-pip
-pip install Flask
-pip install docker
+pip3 install Flask
+pip3 install docker
 
 ```
     
