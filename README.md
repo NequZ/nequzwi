@@ -27,10 +27,34 @@ Answer 2
 
 How to install NequZ-WI
 
+Install the needed Requirements
+
 ```bash
 apt update && apt upgrade -y
+apt install php
+apt install curl
+apt-get -y install screen
+apt install python3-pip
+pip3 install Flask
+pip3 install docker
+pip3 install flask-cors
+
 ```
     
+## NequZ-WI-Dameon Installation
+
+How to install the Daemon for a Hostsystem
+
+#REQUIREMENTS
+
+- Debian, Ubuntu or any other Linux System
+- screen
+- php, pip
+- python
+- curl 
+
+
+
 ## Roadmap
 
 1. General Usage
