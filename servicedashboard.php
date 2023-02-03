@@ -94,6 +94,7 @@ foreach ($services as $key => $service) {
                         <th>Register Date</th>
                         <th>Expire Date</th>
                         <th>Status</th>
+                        <th>Service Status</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -111,6 +112,12 @@ foreach ($services as $key => $service) {
                                     <span class="badge badge-success">Active</span>
                                 <?php endif; ?>
                             </td>
+                            <td>
+                                <?php if ($service['active'] == '0') : ?>
+                                    <span class="badge badge-danger">Not Ready</span>
+                                <?php else : ?>
+                                    <span class="badge badge-success">Ready</span>
+                                <?php endif; ?>
                             <td>
                                 <?php if ($service['blocked'] == '1') : ?>
                                     <span class="badge badge-danger">Blocked</span>
