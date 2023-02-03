@@ -17,7 +17,17 @@
 
 include 'config.php';
 session_start();
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
+if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin'] || !isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$smt = $db->prepare("SELECT `rank` FROM `user` WHERE username = :username");
+$smt->bindParam(':username', $_SESSION['username']);
+$smt->execute();
+$adminRank = $smt->fetchColumn();
+
+if ($adminRank <= 0) {
     header("Location: login.php");
     exit;
 }
@@ -31,12 +41,13 @@ if (isset($_GET['id']) && $_GET['id'] == $_SESSION['id']) {
 }
 
 // get data from user_informations table
-$stmt = $db->prepare("SELECT * FROM user_informations WHERE id = :id");
+$stmt = $db->prepare("SELECT * FROM `user_informations` LEFT JOIN `user` USING (`id`) WHERE `id` = :id");
 $stmt->bindParam(':id', $id);
 $stmt->execute();
 $user = $stmt->fetch();
 
-if (isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['email']) && isset($_POST['adress']) && isset($_POST['city']) && isset($_POST['county']) && isset($_POST['zip_code'])) {
+if (isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['email']) && isset($_POST['adress']) && isset($_POST['city']) && isset($_POST['county'])
+    && isset($_POST['zip_code']) && isset($_POST['username']) && isset($_POST['password']) && isset($_POST['rank'])) {
     $firstname = $_POST['firstname'];
     $lastname = $_POST['lastname'];
     $email = $_POST['email'];
@@ -44,7 +55,12 @@ if (isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['ema
     $city = $_POST['city'];
     $county = $_POST['county'];
     $zip_code = $_POST['zip_code'];
-    $stmt = $db->prepare("UPDATE user_informations SET firstname = :firstname, lastname = :lastname, email = :email, adress = :adress, city = :city, county = :county, zip_code = :zip_code WHERE id = :id");
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $rank = $_POST['rank'];
+    $stmt = $db->prepare("UPDATE `user_informations`, `user` SET `firstname` = :firstname, `lastname` = :lastname, `user`.`email` = :email, `user_informations`.`email` = :email, `adress` = :adress, 
+                                       `city` = :city, `county` = :county, `zip_code` = :zip_code, `user`.`username` = :username, `user_informations`.`username` = :username, `password` = :password, 
+                                       `rank` = :rank WHERE `user`.`id` = :id AND `user_informations`.`id` = :id");
     $stmt->bindParam(':firstname', $firstname);
     $stmt->bindParam(':lastname', $lastname);
     $stmt->bindParam(':email', $email);
@@ -52,6 +68,9 @@ if (isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['ema
     $stmt->bindParam(':city', $city);
     $stmt->bindParam(':county', $county);
     $stmt->bindParam(':zip_code', $zip_code);
+    $stmt->bindParam(':username', $username);
+    $stmt->bindParam(':password', $password);
+    $stmt->bindParam(':rank', $rank);
     $stmt->bindParam(':id', $id);
     $stmt->execute();
     header("Location: admin_userlist.php");
@@ -117,7 +136,7 @@ echo '<div class="container" id="container">
             </div>
             <div class="form-group">
                 <label for="zip_code">ZIP</label>
-                <input type="text" class="form-control" name="zip_code" id="zip_code" value="' . $user['zip_code'] . '" placeholder="ZIP" />
+                <input type="number" class="form-control" name="zip_code" id="zip_code" value="' . $user['zip_code'] . '" placeholder="ZIP" />
             </div>
             <div class="form-group">
                 <label for="city">City</label>
@@ -130,6 +149,18 @@ echo '<div class="container" id="container">
             <div class="form-group">
                 <label for="county">County</label>
                 <input type="text" class="form-control" name="county" id="county" value="' . $user['county'] . '" placeholder="County" />
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" name="username" id="username" value="' . $user['username'] . '" placeholder="Username" />
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="text" class="form-control" name="password" id="password" value="' . $user['password'] . '" placeholder="Password" />
+            </div>
+            <div class="form-group">
+                <label for="rank">Rank</label>
+                <input type="number" class="form-control" name="rank" id="rank" value="' . $user['rank'] . '" placeholder="rank" min="0" max="99" />
             </div>
             <button type="submit" class="btn btn-primary">Save Changes</button>
         </form> 
