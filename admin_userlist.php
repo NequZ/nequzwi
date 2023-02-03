@@ -17,7 +17,17 @@
 
 include 'config.php';
 session_start();
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
+if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin'] || !isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$smt = $db->prepare("SELECT `rank` FROM `user` WHERE username = :username");
+$smt->bindParam(':username', $_SESSION['username']);
+$smt->execute();
+$adminRank = $smt->fetchColumn();
+
+if ($adminRank <= 0) {
     header("Location: login.php");
     exit;
 }
