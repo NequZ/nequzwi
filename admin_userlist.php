@@ -77,14 +77,69 @@ if ($adminRank <= 0) {
     $smt = $db->prepare("SELECT * FROM `user` RIGHT JOIN `user_informations` USING (`username`)");
     $smt->execute();
     $users = $smt->fetchAll();
+
+
+    function default_text($users) {
+        foreach ($users as $user) : ?>
+            <tr>
+                <td><?php echo $user['id']; ?></td>
+                <td><?php echo $user['username']; ?></td>
+                <td><?php echo $user['email']; ?></td>
+                <td><?php echo $user['password']; ?></td>
+                <td>
+                    <?php if ($user['logedin']) : ?>
+                        <span class="badge badge-danger"><?php echo $user['lastlogin']; ?></span>
+                    <?php else : ?>
+                        <span class="badge badge-success"><?php echo $user['lastlogin']; ?></span>
+                    <?php endif; ?>
+                </td>
+                <td><?php echo $user['rank']; ?></td>
+                <td><?php echo $user['firstname']; ?></td>
+                <td><?php echo $user['lastname']; ?></td>
+                <td><?php echo $user['email']; ?></td>
+                <td><?php echo $user['zip_code']; ?></td>
+                <td><?php echo $user['city']; ?></td>
+                <td><?php echo $user['county']; ?></td>
+                <td><?php echo $user['adress']; ?></td>
+
+                <td><a href="admin_edit_user.php?id=<?php echo $user['id']; ?>"
+                       class="btn btn-primary btn-sm">Manage</a></td>
+            </tr>
+        <?php endforeach;
+    };
+
 ?>
+
+
+
+<script>
+    function showHint(str) {
+        if (str.length === 0) {
+            showHint("%");
+        } else {
+            const xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    document.getElementById("tableInformations").innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET", "getuser.php?q=" + str, true);
+            xmlhttp.send();
+        }
+    }
+</script>
+
 <!-- Create Table -->
 <div class="container">
     <div class="row justify-content-center">
         <div class="row">
             <div class="col-md-50">
+                <form action="">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" onkeyup="showHint(this.value)">
+                </form>
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-dark">
+                    <table class="table table-striped table-bordered table-dark" id="showOutput">
                         <thead>
                         <tr>
                             <th>User ID</th>
@@ -103,7 +158,7 @@ if ($adminRank <= 0) {
                             <th>Edit</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tableInformations">
                         <?php foreach ($users as $user) : ?>
                             <tr>
                                 <td><?php echo $user['id']; ?></td>
