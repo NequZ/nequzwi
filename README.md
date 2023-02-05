@@ -59,7 +59,6 @@ How to install the Daemon for a Hostsystem
 
 1. General Usage
    - [x] Login and logout function of users
-   - [x] Login and logout function of users
    - [ ] Register Function to create new Accounts
    - [ ] Forget Password Function with Email Support
    - [x] Security for logins without rights
