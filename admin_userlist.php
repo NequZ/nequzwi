@@ -88,9 +88,9 @@ if ($adminRank <= 0) {
                 <td><?php echo $user['password']; ?></td>
                 <td>
                     <?php if ($user['logedin']) : ?>
-                        <span class="badge badge-danger"><?php echo $user['lastlogin']; ?></span>
-                    <?php else : ?>
                         <span class="badge badge-success"><?php echo $user['lastlogin']; ?></span>
+                    <?php else : ?>
+                        <span class="badge badge-danger"><?php echo $user['lastlogin']; ?></span>
                     <?php endif; ?>
                 </td>
                 <td><?php echo $user['rank']; ?></td>
