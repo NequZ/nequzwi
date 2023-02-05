@@ -21,7 +21,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
     exit;
 }
 
-include 'config.php';
+require 'config.php';
 
 // check if form is submitted and if username and password is set
 if (isset($_POST['username']) && isset($_POST['password'])) {
@@ -58,6 +58,22 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         // if username or password is incorrect
         echo "Username or password is incorrect";
     }
+
+    if ($loglogin == true) {
+        $username = $_SESSION['username'];
+        $action = "The user $username has logged in.";
+        $timestamp = date("Y-m-d H:i:s");
+        $query = $db->prepare("INSERT INTO log_login (username, action, timestamp) VALUES (:username, :action, :timestamp)");
+        $query->bindParam(':username', $username);
+        $query->bindParam(':action', $action);
+        $query->bindParam(':timestamp', $timestamp);
+        $query->execute();
+
+    }
+
+
+
+
 }
 ?>
 
