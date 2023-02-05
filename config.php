@@ -16,4 +16,4 @@
  * \***************************************************************************/
 
 // Database configuration
-$db = new PDO('mysql:host=localhost;dbname=nequzwi', 'root', ''); // Main Database String
+$db = new PDO('mysql:host=134.255.227.185;dbname=nequzwi', 'testuser', 'eKZyMQCnbQydAWpd75*@8q^JmirqU#P6*rw45896@ZpPn%fNtdAnQsv5b6tHg4YZg87@*RGA64o8cxbib#fnE#Su6n$Fo5jv!%5NPS8C!!k^5B^FdDaLF$KeG4MvQGP%'); // Main Database String
