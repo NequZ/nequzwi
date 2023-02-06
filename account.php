@@ -71,7 +71,7 @@ $services = $smt->fetchAll();
 ?>
 
 <div class="container">
-
+    <?php foreach ($services as $service) : ?>
     <div class="row justify-content-center">
         <div class="col-md-2">
             <div class="icon-card">
@@ -79,7 +79,7 @@ $services = $smt->fetchAll();
                 <p>Account Information</p>
             </div>
             <div class="icon-card">
-                <a href="user_invoice.php"><i class="fa-sharp fa-solid fa-file-invoice fa-2x"></i></a>
+                <a href="user_invoice.php?id=<?php echo $service['id']; ?>"><i class="fa-sharp fa-solid fa-file-invoice fa-2x"></i></a>
                 <p>Invoices</p>
             </div>
             <div class="icon-card">
@@ -87,7 +87,6 @@ $services = $smt->fetchAll();
                 <p>Support</p>
             </div>
         </div>
-        <?php foreach ($services as $service) : ?>
             <div class="col-md-4">
                 <table class="table table-striped table-bordered table-dark">
                     <thead>
