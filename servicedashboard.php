@@ -122,7 +122,11 @@ foreach ($services as $key => $service) {
                                 <?php if ($service['blocked'] == '1') : ?>
                                     <span class="badge badge-danger">Blocked</span>
                                 <?php else : ?>
+                                <?php if ($service['validuntil'] < date('Y-m-d')) : ?>
+                                    <a href="renew.php?id=<?php echo $service['id']; ?>" class="btn btn-primary btn-sm">Renew</a>
+                                <?php else : ?>
                                     <a href="edit.php?id=<?php echo $service['id']; ?>" class="btn btn-primary btn-sm">Manage</a>
+                                <?php endif; ?>
                                 <?php endif; ?>
                             </td>
                         </tr>

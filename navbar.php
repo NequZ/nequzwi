@@ -51,7 +51,7 @@
             if(intval($adminRank) > 1): ?>
                 <li class="nav-item">
                     <a class="nav-link" href="admin.php">
-                        <i class="fa fa-envelope-o">
+                        <i class="fa-solid fa-hammer"></i>
 
                         </i>
                         Administration

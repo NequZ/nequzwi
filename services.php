@@ -22,6 +22,22 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
     exit;
 }
 
+// get user data from database
+$stmt = $db->prepare("SELECT * FROM user WHERE username = :username");
+$stmt->bindParam(':username', $_SESSION['username']);
+$stmt->execute();
+$user = $stmt->fetch();
+
+// get services data from database
+$stmt = $db->prepare("SELECT * FROM user_service");
+$stmt->execute();
+$services = $stmt->fetchAll();
+
+//count services
+$stmt = $db->prepare("SELECT COUNT(*) FROM user_service");
+$stmt->execute();
+$servicescount = $stmt->fetchColumn();
+
 
 ?>
 
@@ -60,6 +76,20 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
 </head>
 
 <?php include 'navbar.php'; ?>
+
+
+<div class="card text-center">
+    <div class="card-header">
+        <i class="fa-sharp fa-solid fa-circle-info"></i>
+    </div>
+    <div class="card-body">
+        <p class="card-text" style="font-size: 1em;">You have currently <?php echo $servicescount; ?> Services</p>
+    </div>
+    <div class="card-body">
+        <p class="card-text" style="font-size: 1em;">There are currently  <?php echo $servicescount; ?> Tickets</p> <!-- Need to adjusted later -->
+    </div>
+
+</div>
 
 
 
