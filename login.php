@@ -36,6 +36,20 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $stmt->execute();
     $user = $stmt->fetch();
 
+    // check if blocked is 1 or 0
+    $stmt = $db->prepare("SELECT * FROM user WHERE username = :username AND password = :password AND blocked = 1");
+    $stmt->bindParam(':username', $username);
+    $stmt->bindParam(':password', $password);
+    $stmt->execute();
+    $blocked = $stmt->fetch();
+
+    if ($blocked) {
+        echo "Your account is blocked";
+        echo "<br><br>";
+        echo "<a href='login.php'>Back</a>";
+        exit;
+    }
+
     // if user is found
     if ($user) {
         // set session variables
@@ -50,6 +64,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $smt->execute();
 
 
+
         // redirect to dashboard
         header("Location: services.php");
 
@@ -58,6 +73,10 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         // if username or password is incorrect
         echo "Username or password is incorrect";
     }
+
+
+
+
 
     if ($loglogin == true) {
         $username = $_SESSION['username'];

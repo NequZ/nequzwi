@@ -93,9 +93,6 @@ $services = $smt->fetchAll();
                         <td><b>Last Name:</b> <?php echo $service['lastname']; ?></td>
                     </tr>
                     <tr>
-                        <td><b>Email:</b> <?php echo $service['email']; ?></td>
-                    </tr>
-                    <tr>
                         <td><b>ZIP Code:</b> <?php echo $service['zip_code']; ?></td>
                     </tr>
                     <tr>
