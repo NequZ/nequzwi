@@ -16,7 +16,7 @@
  * \***************************************************************************/
 
 // Database configuration
-$db = new PDO('mysql:host=134.255.227.185;dbname=nequzwi', 'nequzwi', 'eKZyMQCnbQydAWpd75@8q^JmirqU#P6rw45896@ZpPn%fNtdAnQsv5b6tHg4YZg87@*RGA64o8cxbib#fnE#Su6n$Fo5jv!%5NPS8C!!k^5B^FdDaLF$KeG4MvQGP%'); // Main Database String
+$db = new PDO('mysql:host=134.255.227.185;dbname=nequzwi', 'nequzwi', '22e*7TwEi&Ws@Rh4Uhsps&W#A88&#&NJ%sKQ7YNac*o*sD78p98XKcm$6x9B5!PT!5W6mwD!rB5c!U@Jo&$eFF#Ui!ugj!DqsZ9FKLCK7z$jviZH93e^4eaF#%S2SE&6'); // Main Database String
 
 // Modules
 $loglogin = true; // Log login attempts

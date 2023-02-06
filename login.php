@@ -64,6 +64,11 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $smt->execute();
 
 
+        include_once 'logging.php';
+
+        logToDatabase(1, $user['id'], NULL);
+
+
 
         // redirect to dashboard
         header("Location: services.php");
