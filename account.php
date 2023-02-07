@@ -72,7 +72,7 @@ $services = $smt->fetchAll();
 
 <div class="container">
     <?php foreach ($services as $service) : ?>
-    <div class="row justify-content-center">
+    <div class="row justify-content-lg-center">
         <div class="col-md-2">
             <div class="icon-card">
                 <i class="fas fa-user-circle fa-2x"></i>

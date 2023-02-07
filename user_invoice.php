@@ -58,7 +58,7 @@ if (!$invoices) {
         <meta name="description" content="" />
         <meta name="author" content="" />
 
-        <title>Services</title>
+        <title>Invoices</title>
 
         <!-- bootstrap core css -->
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
@@ -75,7 +75,7 @@ if (!$invoices) {
 <?php include 'navbar.php'; ?>
 
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-lg-center">
         <div class="col-md-2">
             <div class="icon-card">
                 <a href="account.php"><i class="fas fa-user-circle fa-2x"></i></a>

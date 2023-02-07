@@ -40,18 +40,16 @@ $user = $stmt->fetch();
 
 // check if form is submitted and update user_informations table
 
-if (isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['email']) && isset($_POST['adress']) && isset($_POST['city']) && isset($_POST['county']) && isset($_POST['zip_code'])) {
+if (isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['adress']) && isset($_POST['city']) && isset($_POST['county']) && isset($_POST['zip_code'])) {
     $firstname = $_POST['firstname'];
     $lastname = $_POST['lastname'];
-    $email = $_POST['email'];
     $adress = $_POST['adress'];
     $city = $_POST['city'];
     $county = $_POST['county'];
     $zip_code = $_POST['zip_code'];
-    $stmt = $db->prepare("UPDATE user_informations SET firstname = :firstname, lastname = :lastname, email = :email, adress = :adress, city = :city, county = :county, zip_code = :zip_code WHERE id = :id");
+    $stmt = $db->prepare("UPDATE user_informations SET firstname = :firstname, lastname = :lastname, adress = :adress, city = :city, county = :county, zip_code = :zip_code WHERE id = :id");
     $stmt->bindParam(':firstname', $firstname);
     $stmt->bindParam(':lastname', $lastname);
-    $stmt->bindParam(':email', $email);
     $stmt->bindParam(':adress', $adress);
     $stmt->bindParam(':city', $city);
     $stmt->bindParam(':county', $county);
@@ -109,10 +107,6 @@ echo '<div class="container" id="container">
             <div class="form-group">
                 <label for="lastname">Last Name</label>
                 <input type="text" class="form-control" name="lastname" id="lastname" value="' . $user['lastname'] . '" placeholder="Last Name" />
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="text" class="form-control" name="email" id="email" value="' . $user['email'] . '" placeholder="Email" />
             </div>
             <div class="form-group">
                 <label for="zip_code">ZIP</label>
