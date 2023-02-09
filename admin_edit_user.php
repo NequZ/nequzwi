@@ -27,7 +27,7 @@ $smt->bindParam(':username', $_SESSION['username']);
 $smt->execute();
 $adminRank = $smt->fetchColumn();
 
-if ($adminRank <= 0) {
+if ($adminRank <= 1) {
     header("Location: login.php");
     exit;
 }

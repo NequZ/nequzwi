@@ -27,13 +27,18 @@ $smt->bindParam(':username', $_SESSION['username']);
 $smt->execute();
 $adminRank = $smt->fetchColumn();
 
-if ($adminRank <= 0) {
+if ($adminRank <= 1) {
     header("Location: login.php");
     exit;
 }
 
+$stmt = $db->prepare("SELECT COUNT(*) FROM `user_ticket` WHERE `open` = 0");
+$stmt->execute();
+$count = $stmt->fetchColumn();
 
-
+$stmt = $db->prepare("SELECT COUNT(*) FROM `user_service`");
+$stmt->execute();
+$countServices = $stmt->fetchColumn();
 
 
 
@@ -75,33 +80,37 @@ if ($adminRank <= 0) {
 
 <?php include 'navbar.php'; ?>
 <!-- Create Table -->
-<div class="container">
-
-    <td><a href="admin_userlist.php" class="btn btn-primary btn-sm">Userlist</a></td><br>
-    <td><a href="admin_servicelist.php" class="btn btn-primary btn-sm">Servicelist</a></td><br>
-    <td><a href="admin_addservice.php" class="btn btn-primary btn-sm">Add Service</a></td><br>
-    <button onclick="createServer()">Create Service</button>
-
-    <script>
-        async function createServer() {
-            let data = {
-                "server_name": "MyMinecraftServer"
-            };
-
-            const response = await fetch('http://45.146.252.134:5000/create_server', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-
-            if (response.ok) {
-                console.log("Server creation request was successful.");
-            } else {
-                console.log("Server creation request failed.");
+    <div class="container">
+    <div class="row justify-content-lg-left">
+    <div class="col-md-2">
+        <div class="icon-card">
+            <a href="admin_userlist.php"><i class="fa-solid fa-users fa-2x"></i></a>
+            <p>Userlist</p>
+        </div>
+        <div class="icon-card">
+            <a href="admin_servicelist.php"<i class="fa-solid fa-server fa-2x"></i></a>
+            <p>Servicelist</p>
+        </div>
+        <div class="icon-card">
+            <a href="admin_ticketoverview.php"<i class="fa-solid fa-ticket fa-2x"></i></a>
+            <p>Ticketoverview</p>
+        </div>
+        <style>
+            p {
+                margin-top: 20px;
             }
-        }
-    </script>
+        </style>
+    </div>
+        <p><i class="fa-solid fa-circle-info"></i>&nbsp;&nbsp;&nbsp;&nbsp;There are <?php echo $count ?> open Tickets at the Moment </p> <hr>
+
+        <p><i class="fa-solid fa-circle-info"></i>&nbsp;&nbsp;&nbsp;&nbsp;There are <?php echo $countServices ?> Servies at the Moment </p>
+    </div>
+
+
+    </div>
+    </div>
+
+
+
 
     <?php include 'footer.php'; ?>
