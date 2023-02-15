@@ -87,6 +87,7 @@ $ticket = $stmt->fetchAll();
                     <thead>
                     <tr>
                         <th>Creator</th>
+                        <th>TicketID</th>
                         <th>Subject</th>
                         <th>Creation Date</th>
                         <th>Status</th>
@@ -97,6 +98,7 @@ $ticket = $stmt->fetchAll();
                     <?php foreach ($ticket as $ticket): ?>
                         <tr>
                             <td><?php echo $ticket['username']; ?></td>
+                            <td><?php echo $ticket['id']; ?></td>
                             <td><?php echo $ticket['subject']; ?></td>
                             <td><?php echo $ticket['date']; ?></td>
                             <td><?php if ($ticket['open'] == 0) { echo "<span class='badge badge-success'>Open</span>"; } else { echo "<span class='badge badge-danger'>Closed</span>";} ?></td>
