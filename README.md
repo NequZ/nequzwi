@@ -1,4 +1,4 @@
-#CURRENTLY NOT FUNCTIONAL! STILL WIP
+# CURRENTLY NOT FUNCTIONAL! STILL WIP
 # NequZ-WI
 
 A powerful web interface. Which provides everything you need for your hosting service. 
