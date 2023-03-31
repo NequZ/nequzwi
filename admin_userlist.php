@@ -106,6 +106,7 @@ if ($adminRank <= 1) {
                 <form action="">
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username" onkeyup="showHint(this.value)">
+                    <td><a href="admin_new_user.php" class="btn btn-primary btn-sm">Create New User</a></td>
                 </form>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-dark" id="showOutput">
